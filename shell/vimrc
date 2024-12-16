@@ -1,0 +1,119 @@
+syntax on
+set mouse=a
+set autoindent
+set smartindent
+set cindent
+set ruler
+set number
+highlight ExtraWhitespace ctermbg=yellow
+match ExtraWhitespace /\S\zs\s\+$/
+imap <c-h> <CR><<Press 6dd to remove this >><CR>c-d : coupe la ligne<CR>c-c : copie toute la ligne<CR>c-p : colle<CR>c-x : sauvegarde et quitte<CR>c-r : efface tout le fichier<CR><CR><esc>kkkkkkk<esc>
+imap <c-c> <esc>yyi
+imap <c-d> <esc>ddi
+imap <c-p> <esc>pi
+imap <c-x> <esc>:wq<CR>
+nmap <c-r> ggdG
+imap <c-r> :<esc>ggdG
+iabbrev LEN ft_strlen()
+iabbrev DUP ft_strdup()
+iabbrev MC if ((= ( *)malloc(sizeof()) * ) == NULL)<CR>return (NULL);<esc>khhhhhhhhhhhhi
+nmap infd ddG
+let s:asciiart = [
+			\"        :::      ::::::::",
+			\"      :+:      :+:    :+:",
+			\"    +:+ +:+         +:+  ",
+			\"  +#+  +:+       +#+     ",
+			\"+#+#+#+#+#+   +#+        ",
+			\"     #+#    #+#          ",
+			\"    ###   ########.fr    "
+			\]
+
+let s:start		= '/*'
+let s:end 		= '*/'
+let s:fill		= '*'
+let s:linelen		= 80
+let	s:margeinlen	= 4
+let s:namebuf		= bufname("%")
+
+function s:bigline ()
+	return s:start . ' ' .repeat(s:fill, s:linelen - 2 - strlen(s:start) - strlen(s:end)) . ' ' . s:end
+endfunction
+
+function s:emptyline ()
+	return s:start . repeat(' ', s:linelen - strlen(s:start) - strlen(s:end)) .s:end
+endfunction
+
+function s:thirdline ()
+	return s:start . repeat(' ', 56) . repeat(':', 3) . repeat(' ', 6) . repeat(':' , 7) . repeat(' ', 4) . s:end
+endfunction
+
+function s:nameline ()
+	return s:start . repeat(' ', 3) . s:namebuf . repeat(' ', 45 - strlen(s:namebuf)) . s:asciiart[1] . repeat(' ', 3) . s:end
+endfunction
+
+function s:fifthline ()
+	return s:start . repeat(' ', s:linelen - strlen(s:start) - strlen(s:end) - strlen(s:asciiart[2]) - 3) . s:asciiart[2] . repeat(' ', 3) . s:end
+endfunction
+
+function s:creatorline ()
+	let	l:By 	='By: '
+	let l:login	= 'mressier '
+	let l:mail = (strlen($MAIL) == 0) ? 'marvin@student.42.fr' : $MAIL
+	return s:start . repeat(' ', 3) . l:By . l:login . '<' . l:mail . '>' . repeat(' ', s:linelen - strlen(s:start) - strlen(s:end) - strlen(s:asciiart[3]) - 6 - strlen(l:login) - strlen(l:mail) - strlen(l:By) - 2) . s:asciiart[3] . repeat(' ', 3) . s:end
+endfunction
+
+function s:seventhline ()
+	return s:start . repeat(' ', s:linelen - strlen(s:start) - strlen(s:end) - strlen(s:asciiart[4]) - 3) . s:asciiart[4] . repeat(' ', 3) . s:end
+endfunction
+
+function s:createline ()
+	let l:date = strftime("%Y/%m/%d %H:%M:%S")
+	let l:create = 'Created: '
+	let l:by = ' by '
+	let l:login = $USER
+	return s:start . repeat(' ', 3) . l:create . l:date . l:by . l:login . repeat(' ', s:linelen - strlen(l:date) - strlen(l:create) - strlen(l:by) - strlen(l:login) - strlen(s:start) - strlen(s:end) - strlen(s:asciiart[5]) - 6) . s:asciiart[5] . repeat(' ', 3) . s:end
+endfunction
+
+function s:modifyline ()
+	let l:date	= strftime("%Y/%m/%d %H:%M:%S")
+	let l:modif	= 'Updated: '
+	let l:by	= ' by '
+	let l:user	= $USER
+	return s:start . repeat(' ', 3) . l:modif . l:date . l:by . l:user . repeat(' ', 5) . s:asciiart[6] . repeat(' ', 3) . s:end
+endfunction
+
+function s:test ()
+	let l:l1 = getline(1)
+	let l:l2 = getline(2)
+	let l:l3 = getline(3)
+	let l:l5 = getline(5)
+	let l:l7 = getline(7)
+	let l:l10 = getline(10)
+	let l:l11 = getline(11)
+	let l:t1 = s:bigline()
+	let l:t2 = s:emptyline()
+	let l:t3 = s:thirdline()
+	let l:t5 = s:fifthline()
+	let l:t7 = s:seventhline()
+	if (l:l1!=#l:t1 || l:l2!=#l:t2 || l:l3!=#l:t3 || l:l5!=#l:t5 || l:l7!=#l:t7 || l:l10!=#l:t1 || l:l11!=#l:t2)
+		call s:insert ()
+	endif
+endfunction
+
+function s:insert ()
+	call append(0, s:bigline())
+	call append(0, s:emptyline())
+	call append(0, s:modifyline())
+	call append(0, s:createline())
+	call append(0, s:seventhline())
+	call append(0, s:creatorline())
+	call append(0, s:fifthline())
+	call append(0, s:nameline())
+	call append(0, s:thirdline())
+	call append(0, s:emptyline())
+	call append(0, s:bigline())
+endfunction
+
+command Header call s:test ()
+nmap <c-c><c-h> :Header<CR>
+autocmd BufWritePre * call s:modifyline ()

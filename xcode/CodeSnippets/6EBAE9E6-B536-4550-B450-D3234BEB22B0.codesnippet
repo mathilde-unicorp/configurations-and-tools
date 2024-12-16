@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>_bundleinit_</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>CodeBlock</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>let bundle = Bundle(for: type(of: self))
+let nibName = String(describing: &lt;#type#&gt;.self)
+bundle.loadNibNamed(nibName, owner: self, options: nil)
+
+&lt;#setup functions#&gt;
+
+contentView.frame = bounds
+addSubview(contentView)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>6EBAE9E6-B536-4550-B450-D3234BEB22B0</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Bundle Init</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,67 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mathou <mathou@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/01/10 10:00:41 by mressier          #+#    #+#              #
+#    Updated: 2016/05/03 13:55:13 by mressier         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = NAME
+
+LIBFT_PATH = ../libZ/
+LIBFT = ../libZ/libZ.a
+
+ifdef DEBUG
+	FLAGS = -Wall -Wextra -Werror -g
+else
+	FLAGS = -Wall -Wextra -Werror
+endif
+
+TMP = .tmp/
+
+INCLUDES = -I ./includes -I $(LIBFT_PATH)includes/
+
+##Modify
+
+##sources :
+
+MAIN = main.c
+
+SRC_MAIN = $(addprefix srcs/main/, $(MAIN))
+
+SRCS = $(SRC_MAIN)
+
+OBJ = $(SRCS:%.c=.tmp/%.o)
+
+all: prepare compile_lib $(NAME)
+
+compile_lib:
+	@make -C $(LIBFT_PATH)
+
+prepare:
+	@mkdir -p .tmp/srcs/main
+
+$(NAME): $(OBJ)
+	@gcc $(FLAGS) $(OBJ) -o $(NAME) -L $(LIBFT_PATH) -lZ
+	@echo "\\n\033[33m $(NAME) has successfully been played ღ \033[0;0m\\n"
+
+.tmp/%.o: %.c
+	@echo "\033[32m♪♫\033[0m"\\c
+	@gcc $(FLAGS) $(INCLUDES) -o $@ -c $<
+
+clean:
+	@make -C $(LIBFT_PATH) clean
+	@echo "\\n\033[44m Clean objects ... ⊗_⊙ \033[0;0m\\n"
+	@rm -rf $(O_DIR)
+
+fclean: clean
+	@make -C $(LIBFT_PATH) fclean
+	@echo "\033[44m Clean $(NAME) ... ⊛﹏⊛ \033[0;0m\\n"
+	@rm -rf $(NAME)
+	@rm -rf .tmp/
+
+re: fclean all

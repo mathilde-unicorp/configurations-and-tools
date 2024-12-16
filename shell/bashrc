@@ -1,0 +1,42 @@
+export PATH="/Users/mressier/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/munki"
+# export MANPATH="/usr/local/man:$MANPATH"
+
+#git commands
+
+export TERM=xterm-256color
+
+source ~/.git-prompt.sh
+source ~/.git-completion.bash
+source ~/.bash_color.sh
+
+export GIT_PS1_SHOWUNTRACKED_FILES=1
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWUPSTREAM="auto verbose"
+
+export PS1='$(__git_ps1)'" \u(${C_G_GREEN}\w${C_CLEAR}) "
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+export HOMEBREW_CACHE="/tmp/mycache"
+export HOMEBREW_TEMP="/tmp/mytemp"
+mkdir -p /tmp/mychache /tmp/mytemp
+
+alias gccw="gcc -Wall -Wextra -Werror"
+alias ls="ls -G"
+
+new_branch()
+{
+    (( $# == 1 )) || { echo "usage: new_branch [branch name]" >&2; return 1; }
+    typeset BRANCH_NAME=$1
+
+    git checkout -b ${BRANCH_NAME} || return 1;
+    `git push 2>&1 | grep "git"` || return 1;
+}
+
+commit()
+{
+	git commit -m "$*"
+}

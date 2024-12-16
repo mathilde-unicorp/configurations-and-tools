@@ -1,0 +1,37 @@
+[user]
+        name = Mathilde RESSIER
+        email = mathilderessier@hotmail.fr
+[color]
+        ui = true
+[alias]
+	cprev= !git checkout @{-1}
+        graph = !git log --format='%h%C(green)%d%C(reset) %C(blue)%an%C(reset) %C(white)%ad%C(reset) %s' --graph --all -n 1000
+        grlong = !git log --format='%h%C(green)%d%C(reset) %C(blue)%an%C(reset) %C(white)%ad%C(reset) %s' --graph --all --date="short"
+        lg1 = !git log --graph --abbrev-commit --decorate --date=relative --format=format:'%h %C(white)(%ar)%C(reset) %C(cyan)%s%C(reset) - %C(blue)%an%C(reset)%C(green)%d%C(reset)' --all -n 40
+        lg2 = !git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+        gr = !git graph
+        amend = commit --amend
+        st = status
+        df = diff
+        co = checkout
+        ci = commit
+        br = branch
+	crp = cherry-pick
+        #undo = reset --soft HEAD^
+        addm = !git add --update && git status
+        check = !git log --reverse -p HEAD..origin/next
+        smart = !git log --pretty="%cr (%cn) %s" -n 15 --date=relative
+[core]
+        editor = vim
+        whitespace = tabwidth=4, indent-with-non-tab, trailing-space, space-before-tab
+        pager = less -F -x1,5
+        autocrlf = input
+[diff "odf"]
+        textconv=odt2txt
+[push]
+        default = upstream
+[gc]
+        pruneexpire = 1 days
+[diff]
+        tabwidth=4
+        tool = meld

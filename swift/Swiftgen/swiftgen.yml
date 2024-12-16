@@ -1,0 +1,22 @@
+input_dir: Melomind.iOS-V2/Ressources/
+output_dir: Melomind.iOS-V2/Ressources/Generated/
+strings:
+  inputs:
+    - Internationalization/en.lproj/Localizable.strings
+  outputs:
+    templatePath: Melomind.iOS-V2/Ressources/Templates/swiftgen_string_template.stencil
+    output: Strings.swift
+    params:
+          enumName: MBTString
+colors:
+  inputs: Colors/MBTColors.xml
+  outputs:
+    templatePath: Melomind.iOS-V2/Ressources/Templates/swiftgen_color_template.stencil
+    output: Colors.swift
+xcassets:
+  inputs: Image/Assets.xcassets
+  outputs:
+    templateName: swift4
+    output: Assets.swift
+    params:
+          enumName: MBTAsset
