@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+###############################################################################
+##                                  PYTHON                                   ##
+###############################################################################
+
+alias python="python3"
+
+###############################################################################
+##                                     GIT                                   ##
+###############################################################################
+
+new_branch()
+{
+    (( $# == 1 )) || { echo "usage: new_branch [branch name]" >&2; return 1; }
+    typeset BRANCH_NAME=$1
+
+    git checkout -b ${BRANCH_NAME} || return 1;
+    git push --set-upstream origin ${BRANCH_NAME} || return 1;
+}
+
+commit()
+{
+	git commit -m "$*"
+}
+
+remove_tag()
+{
+    (( $# == 1 )) || { echo "usage: remove_tag [tag name]" >&2; return 1; }
+    typeset TAG_NAME=$1
+
+    git tag -d "${TAG_NAME}" || return 1;
+    git push --delete origin "${TAG_NAME}" || return 1;
+}
+
+###############################################################################
+##                             C & 42 ALIASES                               ##
+###############################################################################
+
+alias norme="norminette */*.[ch]"
+alias gccw="gcc -Wall -Wextra -Werror"
+alias gitp="git add && git commit -m add && git push"
