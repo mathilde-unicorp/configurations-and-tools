@@ -82,6 +82,39 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+#############
+## 42 aliases
+#############
+
 alias norme="norminette */*.[ch]"
 alias gccw="gcc -Wall -Wextra -Werror"
 alias gitp="git add && git commit -m add && git push"
+
+#############
+## GIT CONFIG
+#############
+
+new_branch()
+{
+    (( $# == 1 )) || { echo "usage: new_branch [branch name]" >&2; return 1; }
+    typeset BRANCH_NAME=$1
+
+    git checkout -b ${BRANCH_NAME} || return 1;
+    git push --set-upstream origin ${BRANCH_NAME} || return 1;
+}
+
+commit()
+{
+	[ `pwd` = "/Users/onion/NotSaved/Clients/ecocea/lv-events" ] && { echo "swiftformat ." > /Users/onion/NotSaved/Clients/ecocea/lv-events/.git/hooks/pre-commit && echo "Replacing precommit script" };
+	git commit -m "$*"
+}
+
+remove_tag()
+{
+    (( $# == 1 )) || { echo "usage: remove_tag [tag name]" >&2; return 1; }
+    typeset TAG_NAME=$1
+
+    git tag -d ${TAG_NAME} || return 1;
+    git push --delete origin ${TAG_NAME} || return 1;
+}
