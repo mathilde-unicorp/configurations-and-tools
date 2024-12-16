@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 export PATH="/Users/mressier/.brew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/munki"
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -26,17 +28,3 @@ mkdir -p /tmp/mychache /tmp/mytemp
 
 alias gccw="gcc -Wall -Wextra -Werror"
 alias ls="ls -G"
-
-new_branch()
-{
-    (( $# == 1 )) || { echo "usage: new_branch [branch name]" >&2; return 1; }
-    typeset BRANCH_NAME=$1
-
-    git checkout -b ${BRANCH_NAME} || return 1;
-    `git push 2>&1 | grep "git"` || return 1;
-}
-
-commit()
-{
-	git commit -m "$*"
-}

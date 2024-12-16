@@ -106,7 +106,6 @@ new_branch()
 
 commit()
 {
-	[ `pwd` = "/Users/onion/NotSaved/Clients/ecocea/lv-events" ] && { echo "swiftformat ." > /Users/onion/NotSaved/Clients/ecocea/lv-events/.git/hooks/pre-commit && echo "Replacing precommit script" };
 	git commit -m "$*"
 }
 
@@ -118,3 +117,11 @@ remove_tag()
     git tag -d ${TAG_NAME} || return 1;
     git push --delete origin ${TAG_NAME} || return 1;
 }
+
+
+## Additionnal methods
+#ecocea_commit()
+#{
+#	[ `pwd` = "/Users/onion/NotSaved/Clients/ecocea/lv-events" ] && { echo "swiftformat ." > /Users/onion/NotSaved/Clients/ecocea/lv-events/.git/hooks/pre-commit && echo "Replacing precommit script" };
+#	git commit -m "$*"
+#}
