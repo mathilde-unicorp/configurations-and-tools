@@ -118,7 +118,6 @@ remove_tag()
     git push --delete origin ${TAG_NAME} || return 1;
 }
 
-
 ## Additionnal methods
 #ecocea_commit()
 #{

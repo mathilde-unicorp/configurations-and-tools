@@ -1,39 +1,37 @@
-#!/usr/bin/bash
-
-$BASH_CONFIG_FILE=~/.bashrc
-$ZSH_CONFIG_FILE=~/.zshrc
-$VIM_CONFIG_FILE=~/.vimrc
+#!/bin/bash
 
 # Get default shell configuration files
 
-if [ -f $BASH_CONFIG_FILE ];
-then
-	echo "Brew already installed - skipping this step";
-elif
-	cp ./bashrc $BASH_CONFIG_FILE
-fi
+install_zsh() {
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+}
 
-if [ -f $ZSH_CONFIG_FILE ];
-then
-	echo "Brew already installed - skipping this step";
-elif
-	cp ./zshrc $ZSH_CONFIG_FILE
-fi
+install_config_files() {
+	config_files=( "bashrc" "zshrc" "vimrc" "bash_color.sh" )
 
-if [ ! -f $VIM_CONFIG_FILE ];
-then
-	echo "Brew already installed - skipping this step";
-elif
-	cp ./vimrc $BASH_CONFIG_FILE
-fi
+	for file in "${config_files[@]}"
+	do 
+		# if [ -f "$HOME/.$file" ];
+		# then
+		# 	echo "$file already installed - skipping this step";
+		# else
+			cp "./$file" "$HOME/.$file"
+		# fi
+	done
 
-source $ZSH_CONFIG_FILE
-echo "Configuration file installed";
+	source "$HOME/.bashrc"
+	echo "Configuration file installed";
+}
 
-#Install brew
-if [[ which brew ]];
-then
-	echo "Brew already installed - skipping this step";
-elif
-	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
-fi
+install_brew() {
+	if ( which brew );
+	then
+		echo "Brew already installed - skipping this step";
+	else
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	fi
+}
+
+install_zsh
+install_brew
+install_config_files
