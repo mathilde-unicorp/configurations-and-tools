@@ -1,0 +1,40 @@
+Local initialization after creating a new git host account (on code berg for example)
+
+1. Create SSH key: (official doc -> https://docs.codeberg.org/security/ssh-key/)
+	- on shell:
+		- Generate ssh key: `ssh-keygen -t ed25519 -a 100` 
+		(specify new ssh key file full path: /Users/onion/.ssh/id_ed25519_codeberg (replace codeberg with the real source name))
+
+		- copy public key created: `pbcopy < ~/.ssh/id_ed25519_codeberg.pub`	
+
+	- on codeberg settings > ssh/gpg keys (https://codeberg.org/user/settings/keys):
+		- Select `Add Key`
+		- Give it a name, and paste the public key you have copied
+
+2. Test the created SSH Key:
+	- Edit ssh config file at $HOME/.ssh/config by adding the following lines:
+		```
+Host codeberg.org
+  HostName codeberg.org
+  User git
+  IdentityFile ~/.ssh/id_ed25519_codeberg
+		```
+		
+	- Test with the command `ssh -T git@codeberg.org`
+	- Output should be like: `Hi there, ____! You've successfully authenticated with the key named ____, but Forgejo does not provide shell access. If this is unexpected, please log in with password and setup Forgejo under another user.`
+
+3. Telling Git about your SSH key
+
+	- Type: `git config --global gpg.format ssh`
+	- Type: `git config --global user.signingKey ~/.ssh/id_ed25519_codeberg.pub` (replace filename with your own)
+	- Type: `git config --global commit.gpgSign true`
+
+4. (Optionnal) Changing your repository's transport from HTTPS to SSH
+
+If you have already added your repo origin as https, you need change it to ssh:
+	- Go to your repository and check your existing remotes with `git remote -v`
+	- Change remote url for a remote name: `git remote set-url codeberg <remote-ssh-url>` (replace codeberg with your own remove name and put the repository ssh link)
+
+That's it !
+
+
